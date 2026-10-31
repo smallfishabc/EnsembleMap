@@ -28,3 +28,12 @@ dependencies:
   - matplotlib-base=3.6.3
   - setuptools=68.2.2
   - pytest=7.4.4
+
+  # OpenBLAS rather than MKL. The MKL builds of these pins resolve mkl 2024.2.2
+  # alongside llvm-openmp 23.1.4, and mkl_intel_thread then fails to load against it,
+  # killing the interpreter with STATUS_DELAY_LOAD_FAILED on the first BLAS or LAPACK
+  # call. That is any matrix product or determinant, so mdtraj could not load a PDB
+  # carrying a unit cell and the curve fit died. This pulls in nomkl and the pthreads
+  # build of libopenblas, which has no Intel OpenMP dependency and so no threading
+  # layer that can fail. numpy and mdtraj builds are unchanged.
+  - libblas=*=*openblas
