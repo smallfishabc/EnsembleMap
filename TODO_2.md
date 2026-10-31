@@ -70,11 +70,41 @@ Described in the paper, not yet in the package. Sources are under `temp_examples
 - [ ] **Which contact-probability cutoff is the published one.** 0.1 with a minimum
       separation of 10 in the 2024 scan notebook; 0.01 with a minimum separation of 5 in
       the 2025 Colab notebook; none in the shipped analysis. They are parameters now, but
-      the paper reports one pair.
+      the paper reports one pair. Measured effect below.
 
 - [ ] **Which interaction thresholds are the published ones.** The current pairwise set
       reproduces the published p53 figure, so that is settled. Whether the chunk set is a
-      separate calibrated choice is not.
+      separate calibrated choice is not. The four sets in circulation are below.
+
+### Measured effect of the p₁ floor
+
+On the published p53 map, 28,000 frames. The floor touches only the repulsive side —
+the attractive counts do not move at all.
+
+| p₁ floor | ≈ frames | lvl 2 | lvl 1 | lvl 0 | lvl −1 | lvl −2 |
+|---|---|---|---|---|---|---|
+| 0 (published) | 0 | **60** | **129** | 625 | 166 | **731** |
+| 1/28000 | 1 | 60 | 129 | 696 | 166 | 660 |
+| 0.001 | 28 | 60 | 129 | 1101 | 166 | **255** |
+| 0.01 | 280 | 60 | 129 | 1406 | 85 | 31 |
+
+So it is a counting decision rather than a drawing one. Between a floor of 0 and 0.001 the
+number of repulsive arcs drawn falls from 897 to 421, but only 5% of pixels change and
+0.16% change visibly, because the arcs removed are drawn at near-zero width — the width
+scales with contact probability. Anything that tallies repulsive interactions is sensitive
+to this; the figure is not.
+
+### The four threshold sets
+
+The same p53 data and the same reference curve under each set, to show the size of the
+choice.
+
+| set | lvl 2 | lvl 1 | lvl 0 | lvl −1 | lvl −2 |
+|---|---|---|---|---|---|
+| pairwise, current (0811) | 60 | 129 | 625 | 166 | 731 |
+| pairwise, older (1115 / chunkreal) | 60 | 129 | 625 | 87 | 810 |
+| chunk (chunkreal) | 115 | 74 | 547 | 78 | 897 |
+| CG edges on all-atom data | 28 | 87 | 699 | 166 | 731 |
 
 ## Packaging, only if publishing to PyPI
 
